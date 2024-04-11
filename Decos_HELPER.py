@@ -5,16 +5,25 @@ from time import perf_counter as timePerfCounter
 
 functoolsCache: Callable[[Any], Any] # caches the function return value 
 
-def checkSingleType(objectType: type) -> Callable:
-    def _executor(func: Callable) -> Callable:
-        def _inner(*args: Any, **kwargs: Any) -> Callable:
-            print(objectType, args)
-            for _index, arg in enumerate(args):
-                if not isinstance(arg, objectType):
-                    raise TypeError(f"{func.__name__}: attempting to pass a non-{objectType.__name__} argument [{_index}]: <{arg}: {arg.__class__.__name__}>")
-            return func(*args, **kwargs)
-        return _inner
-    return _executor
+#simplified and substituted by checkSameType
+#def checkSingleType(objectType: type) -> Callable:
+#    def _executor(func: Callable) -> Callable:
+#        def _inner(*args: Any, **kwargs: Any) -> Callable:
+#            print(objectType, args)
+#            for _index, arg in enumerate(args):
+#                if not isinstance(arg, objectType):
+#                    raise TypeError(f"{func.__name__}: attempting to pass a non-{objectType.__name__} argument [{_index}]: <{arg}: {arg.__class__.__name__}>")
+#            return func(*args, **kwargs)
+#        return _inner
+#    return _executor
+
+def checkSameType(func: Callable) -> Callable:
+    def _inner(self, *args: Any, **kwargs: Any) -> Callable:
+        for _index, arg in enumerate(args):
+            if not isinstance(arg, type(self)):
+                raise TypeError(f"{func.__name__}: attempting to pass a non-{type(self).__name__} argument [{_index}]: <{arg}: {arg.__class__.__name__}>")
+        return func(self, *args, **kwargs)
+    return _inner
 
 def checkPositiveIntegerArgs(func: Callable) -> Callable:
     """Checks, if the passed function got only positive integers in the arguments, if yes, the function return value is returned"""
