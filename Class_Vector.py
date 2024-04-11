@@ -3,7 +3,7 @@ from Funcs_HELPER import ArrayMath
 from Funcs_HELPER import typing, functoolsCache, getAttributeValues
 from itertools import chain
 import Descriptor_UNUM
-#import Decos_HELPER
+import Decos_HELPER
 
 
 class positiveFloatVector(object):
@@ -61,23 +61,23 @@ class positiveFloatVector(object):
             super(self.__class__, self).__setattr__(name, value)
         else: raise AttributeError(f"{self.__class__.__name__}: cannot add another attribute <{name}>!")
     
-    #@HelperDecos.checkSingleType(_positiveFloatVector)
-    def __add__(self, other: positiveFloatVector) -> positiveFloatVector:
+    @HelperDecos.checkSameType
+    def __add__(self, other: typing.Self) -> typing.Self:
         attrs = [ArrayMath.sum((a,b)) for a,b in zip(*getAttributeValues(self, other))]
         return self.__class__(*attrs)
 
-    #@HelperDecos.checkSingleType(_positiveFloatVector)
-    def __sub__(self, other: positiveFloatVector) -> positiveFloatVector:
+    @HelperDecos.checkSameType
+    def __sub__(self, other: typing.Self) -> typing.Self:
         attrs = [ArrayMath.sub((a,b)) for a,b in zip(*getAttributeValues(self, other))]
         return self.__class__(*attrs)
 
-    #@HelperDecos.checkSingleType(_positiveFloatVector)
-    def __mul__(self, other: positiveFloatVector) -> positiveFloatVector:
+    @HelperDecos.checkSameType
+    def __mul__(self, other: typing.Self) -> typing.Self:
         attrs = [ArrayMath.sum((a*b)) for a,b in zip(*getAttributeValues(self, other))]
         return self.__class__(*attrs)
 
-    #@HelperDecos.checkSingleType(_positiveFloatVector)
-    def __div__(self, other: positiveFloatVector) -> positiveFloatVector:
+    @HelperDecos.checkSameType
+    def __div__(self, other: typing.Self) -> typing.Self:
         attrs = [ArrayMath.sub((a/b)) for a,b in zip(*getAttributeValues(self, other))]
         return self.__class__(*attrs)
 
