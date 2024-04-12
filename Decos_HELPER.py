@@ -1,9 +1,7 @@
-from Funcs_HELPER import functoolsCache, printDecoratedLine
+from Funcs_HELPER import printDecoratedLine
 from typing import Callable, Any
 from datetime import datetime
 from time import perf_counter as timePerfCounter
-
-functoolsCache: Callable[[Any], Any] # caches the function return value 
 
 #simplified and substituted by checkSameType
 #def checkSingleType(objectType: type) -> Callable:

@@ -1,28 +1,28 @@
 from __future__ import annotations
-import typing, operator
+import typing, Typing_HELPER, operator
 from numbers import Number
 from functools import reduce as functoolsReduce, cache as functoolsCache
 
-def printDecoratedLine(iptStr: str = None, start: bool = True) -> str:
+def printDecoratedLine(iptStr: typing.Sized= "", start: typing.Optional[bool] = True) -> None:
     stars = len(iptStr)*"*"
     if start: print(iptStr), print(stars)
     else: print(stars), print(iptStr)
         
 class ArrayMath(object):
     @staticmethod
-    def mathFunc(operatorIpt: typing.Operator = None) -> typing.Callable[[Number, Number], Number]: return lambda a,b: operatorIpt(a,b)
+    def mathFunc(operatorIpt: Typing_HELPER.OPERATORTYPE) -> typing.Callable[[Number, Number], Number]: return lambda a,b: operatorIpt(a,b)
 
     @staticmethod
-    def sum(values1D: typing.Iterator = None) -> Number: return functoolsReduce(lambda a,b: ArrayMath.mathFunc(operator.add)(a,b), values1D)
+    def sum(values1D: typing.Iterator[Number]) -> Number: return functoolsReduce(lambda a,b: ArrayMath.mathFunc(operator.add)(a,b), values1D)
 
     @staticmethod
-    def sub(values1D: typing.Iterator = None) -> Number: return functoolsReduce(lambda a,b: ArrayMath.mathFunc(operator.sub)(a,b), values1D)
+    def sub(values1D: typing.Iterator[Number]) -> Number: return functoolsReduce(lambda a,b: ArrayMath.mathFunc(operator.sub)(a,b), values1D)
 
     @staticmethod
-    def mul(values1D: typing.Iterator = None) -> Number: return functoolsReduce(lambda a,b: ArrayMath.mathFunc(operator.mul)(a,b), values1D)
+    def mul(values1D: typing.Iterator[Number]) -> Number: return functoolsReduce(lambda a,b: ArrayMath.mathFunc(operator.mul)(a,b), values1D)
 
     @staticmethod
-    def div(values1D: typing.Iterator = None) -> Number: return functoolsReduce(lambda a,b: ArrayMath.mathFunc(operator.truediv)(a,b), values1D)
+    def div(values1D: typing.Iterator[Number]) -> Number: return functoolsReduce(lambda a,b: ArrayMath.mathFunc(operator.truediv)(a,b), values1D)
 
 
 

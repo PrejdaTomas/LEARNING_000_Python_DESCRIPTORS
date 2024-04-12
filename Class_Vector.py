@@ -27,18 +27,18 @@ class positiveFloatVector(object):
     
     @classmethod
     @functoolsCache
-    def __attributes(cls) -> typing.Iterator[str]:
+    def __attributes(cls) -> typing.List[str]:
         """This "property" is used to check against when trying to dynamically assign a new attribute, which is forbidden.
         Cached so the call is not repeated constantly when there is an attribute check for exception handling.
 
         Returns:
             typing.Iterator[str]: the attributes of the class/instance (non-underscore are found, single-underscore values are created)
         """
-        keys:   typing.Generator[str, None, None]  =   [val for val in (filtrval for filtrval in filter(lambda key: "__" not in key, cls.__dict__))]
+        keys:   typing.List[str]  =   [val for val in (filtrval for filtrval in filter(lambda key: "__" not in key, cls.__dict__))]
         _keys:  typing.Generator[str, None, None] =   (f"_{val}" for val in keys)
         return list(chain(*zip(keys, _keys)))
  
-    def __init__(self, x: float= None, y: float= None, z: float= None) -> None:
+    def __init__(self, x: float, y: float, z: float) -> None:
         """Instance initializer called after instantiation (but before attribute creation by __setattr__ or descriptor.__set__)
 
         Args:
@@ -61,22 +61,22 @@ class positiveFloatVector(object):
             super(self.__class__, self).__setattr__(name, value)
         else: raise AttributeError(f"{self.__class__.__name__}: cannot add another attribute <{name}>!")
     
-    @HelperDecos.checkSameType
+    @Decos_HELPER.checkSameType
     def __add__(self, other: typing.Self) -> typing.Self:
         attrs = [ArrayMath.sum((a,b)) for a,b in zip(*getAttributeValues(self, other))]
         return self.__class__(*attrs)
 
-    @HelperDecos.checkSameType
+    @Decos_HELPER.checkSameType
     def __sub__(self, other: typing.Self) -> typing.Self:
         attrs = [ArrayMath.sub((a,b)) for a,b in zip(*getAttributeValues(self, other))]
         return self.__class__(*attrs)
 
-    @HelperDecos.checkSameType
+    @Decos_HELPER.checkSameType
     def __mul__(self, other: typing.Self) -> typing.Self:
         attrs = [ArrayMath.sum((a*b)) for a,b in zip(*getAttributeValues(self, other))]
         return self.__class__(*attrs)
 
-    @HelperDecos.checkSameType
+    @Decos_HELPER.checkSameType
     def __div__(self, other: typing.Self) -> typing.Self:
         attrs = [ArrayMath.sub((a/b)) for a,b in zip(*getAttributeValues(self, other))]
         return self.__class__(*attrs)
